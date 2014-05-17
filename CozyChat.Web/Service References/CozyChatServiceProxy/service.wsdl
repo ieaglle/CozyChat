@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="CozyChatService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="NetTcpBinding_ICozyChatService_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <msb:BinaryEncoding xmlns:msb="http://schemas.microsoft.com/ws/06/2004/mspolicy/netbinary1">
+        </msb:BinaryEncoding>
+        <sp:TransportBinding xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <wsp:Policy>
+            <sp:TransportToken>
+              <wsp:Policy>
+                <msf:WindowsTransportSecurity xmlns:msf="http://schemas.microsoft.com/ws/2006/05/framing/policy">
+                  <msf:ProtectionLevel>EncryptAndSign</msf:ProtectionLevel>
+                </msf:WindowsTransportSecurity>
+              </wsp:Policy>
+            </sp:TransportToken>
+            <sp:AlgorithmSuite>
+              <wsp:Policy>
+                <sp:Basic256>
+                </sp:Basic256>
+              </wsp:Policy>
+            </sp:AlgorithmSuite>
+            <sp:Layout>
+              <wsp:Policy>
+                <sp:Strict>
+                </sp:Strict>
+              </wsp:Policy>
+            </sp:Layout>
+          </wsp:Policy>
+        </sp:TransportBinding>
+        <wsam:Addressing>
+          <wsp:Policy>
+            <wsam:AnonymousResponses>
+            </wsam:AnonymousResponses>
+          </wsp:Policy>
+        </wsam:Addressing>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import namespace="http://tempuri.org/" />
+      <xsd:import namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import namespace="http://schemas.datacontract.org/2004/07/CozyChat.Model" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ICozyChatService_GetChatRooms_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetChatRooms" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetChatRooms_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetChatRoomsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_CreateChatRoom_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateChatRoom" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_CreateChatRoom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateChatRoomResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_DeleteChatRoom_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteChatRoom" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_DeleteChatRoom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteChatRoomResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_SubscribeUserForRoom_InputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeUserForRoom" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_SubscribeUserForRoom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeUserForRoomResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_UnSubscribeUserForRoom_InputMessage">
+    <wsdl:part name="parameters" element="tns:UnSubscribeUserForRoom" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_UnSubscribeUserForRoom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnSubscribeUserForRoomResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetSubscribedChatRooms_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSubscribedChatRooms" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetSubscribedChatRooms_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSubscribedChatRoomsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetUsersSubscribedToChatRoom_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsersSubscribedToChatRoom" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetUsersSubscribedToChatRoom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsersSubscribedToChatRoomResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetMessagesForChatRoom_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMessagesForChatRoom" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetMessagesForChatRoom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMessagesForChatRoomResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_RegisterUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUser" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_RegisterUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RegisterUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_CheckLogin_InputMessage">
+    <wsdl:part name="parameters" element="tns:CheckLogin" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_CheckLogin_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CheckLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_SendMessage_InputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessage" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_SendMessage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SendMessageResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ICozyChatService">
+    <wsdl:operation name="GetChatRooms">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/GetChatRooms" message="tns:ICozyChatService_GetChatRooms_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/GetChatRoomsResponse" message="tns:ICozyChatService_GetChatRooms_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateChatRoom">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/CreateChatRoom" message="tns:ICozyChatService_CreateChatRoom_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/CreateChatRoomResponse" message="tns:ICozyChatService_CreateChatRoom_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteChatRoom">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/DeleteChatRoom" message="tns:ICozyChatService_DeleteChatRoom_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/DeleteChatRoomResponse" message="tns:ICozyChatService_DeleteChatRoom_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SubscribeUserForRoom">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/SubscribeUserForRoom" message="tns:ICozyChatService_SubscribeUserForRoom_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/SubscribeUserForRoomResponse" message="tns:ICozyChatService_SubscribeUserForRoom_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UnSubscribeUserForRoom">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/UnSubscribeUserForRoom" message="tns:ICozyChatService_UnSubscribeUserForRoom_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/UnSubscribeUserForRoomResponse" message="tns:ICozyChatService_UnSubscribeUserForRoom_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscribedChatRooms">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/GetSubscribedChatRooms" message="tns:ICozyChatService_GetSubscribedChatRooms_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/GetSubscribedChatRoomsResponse" message="tns:ICozyChatService_GetSubscribedChatRooms_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUsersSubscribedToChatRoom">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/GetUsersSubscribedToChatRoom" message="tns:ICozyChatService_GetUsersSubscribedToChatRoom_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/GetUsersSubscribedToChatRoomResponse" message="tns:ICozyChatService_GetUsersSubscribedToChatRoom_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMessagesForChatRoom">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/GetMessagesForChatRoom" message="tns:ICozyChatService_GetMessagesForChatRoom_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/GetMessagesForChatRoomResponse" message="tns:ICozyChatService_GetMessagesForChatRoom_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RegisterUser">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/RegisterUser" message="tns:ICozyChatService_RegisterUser_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/RegisterUserResponse" message="tns:ICozyChatService_RegisterUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CheckLogin">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/CheckLogin" message="tns:ICozyChatService_CheckLogin_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/CheckLoginResponse" message="tns:ICozyChatService_CheckLogin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/SendMessage" message="tns:ICozyChatService_SendMessage_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/SendMessageResponse" message="tns:ICozyChatService_SendMessage_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="NetTcpBinding_ICozyChatService" type="tns:ICozyChatService">
+    <wsp:PolicyReference URI="#NetTcpBinding_ICozyChatService_policy">
+    </wsp:PolicyReference>
+    <soap12:binding transport="http://schemas.microsoft.com/soap/tcp" />
+    <wsdl:operation name="GetChatRooms">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/GetChatRooms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateChatRoom">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/CreateChatRoom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteChatRoom">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/DeleteChatRoom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubscribeUserForRoom">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/SubscribeUserForRoom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnSubscribeUserForRoom">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/UnSubscribeUserForRoom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscribedChatRooms">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/GetSubscribedChatRooms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsersSubscribedToChatRoom">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/GetUsersSubscribedToChatRoom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessagesForChatRoom">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/GetMessagesForChatRoom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RegisterUser">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/RegisterUser" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CheckLogin">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/CheckLogin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMessage">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/SendMessage" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CozyChatService">
+    <wsdl:port name="NetTcpBinding_ICozyChatService" binding="tns:NetTcpBinding_ICozyChatService">
+      <soap12:address location="net.tcp://localhost:3939/CozyChat" />
+      <wsa10:EndpointReference>
+        <wsa10:Address>net.tcp://localhost:3939/CozyChat</wsa10:Address>
+        <Identity xmlns="http://schemas.xmlsoap.org/ws/2006/02/addressingidentity">
+          <Upn>IEAGLLE-DESKTOP\ieaglle</Upn>
+        </Identity>
+      </wsa10:EndpointReference>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

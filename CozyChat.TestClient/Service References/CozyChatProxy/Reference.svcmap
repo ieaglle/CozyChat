@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="4c74da99-f210-4993-8331-5b9903c966ab" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="net.tcp://localhost:3939/CozyChat/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="d0f37bce-3dbf-4211-a245-9c5830310dc4" SourceId="1" SourceUrl="net.tcp://localhost:3939/CozyChat/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="d2d9ce29-2751-4c13-a4e6-b0a7484f025a" SourceId="1" SourceUrl="net.tcp://localhost:3939/CozyChat/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="b1248d5e-b5e5-4ce9-ba72-c480561504ca" SourceId="1" SourceUrl="net.tcp://localhost:3939/CozyChat/mex" />
+    <MetadataFile FileName="CozyChat.Model.xsd" MetadataType="Schema" ID="2bd461d2-b0d4-42fc-b8b2-bf4701ea31e8" SourceId="1" SourceUrl="net.tcp://localhost:3939/CozyChat/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

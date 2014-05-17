@@ -1,0 +1,126 @@
+﻿@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Manage Chat Rooms";
+}
+
+<h2>Chat Rooms (<span data-bind="text: chatRooms().length"></span>)</h2>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Created</th>
+            <th>Users</th>
+            <th>Owner</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: chatRooms">
+        <tr>
+            <td>
+                <a data-bind="attr: {'href': '@Url.Action("Room", "Home")/' + Id}, text: Name"></a>
+            </td>
+            <td><span data-bind="text: moment(CreatedDate).format('Do MMMM YYYY HH:mm')"></span></td>
+            <td><span data-bind="text: Users.length"></span></td>
+            <td><span data-bind="text: Creator"></span></td>
+            <td>
+                <span class="glyphicon glyphicon-plus" title="Subscribe"
+                      data-bind="click: $root.subscribe, visible: Users.indexOf(@User.Identity.GetUserId()) == -1"
+                      style="cursor: pointer"></span>
+                <span class="glyphicon glyphicon-minus" title="Unsubscribe"
+                      data-bind="click: $root.unSubscribe, visible: Users.indexOf(@User.Identity.GetUserId()) != -1"
+                      style="cursor: pointer"></span>
+                &nbsp;&nbsp;&nbsp;
+                <span class="glyphicon glyphicon-trash" title="Delete"
+                      data-bind="click: $root.deleteRoom"
+                      style="cursor: pointer"></span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<button data-bind="click: addRoom">Create</button>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+
+        function ReservationsViewModel() {
+            var self = this;
+
+            self.chatRooms = ko.observableArray();
+
+            self.activate = function () {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetAllChatRooms")',
+                    success: function (content) {
+                        vm.chatRooms(content);
+                        console.log(content);
+                    }
+                });
+            }
+
+            self.addRoom = function () {
+                var name = prompt('Room Name');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("CreateChatRoom")',
+                    data: {roomName : name},
+                    success: function (newRoom) {
+                        console.log(newRoom);
+                        self.chatRooms.push(newRoom);
+                    }
+                });
+            }
+
+            self.deleteRoom = function (room) {
+                $.ajax({
+                    type: 'DELETE',
+                    url: '@Url.Action("DeleteChatRoom")',
+                    data: { roomId: room.Id },
+                    success: function (succ) {
+                        console.log(succ);
+                        self.chatRooms.remove(room);
+                    }
+                });
+            }
+
+            self.subscribe = function(room) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Subscribe")',
+                    data: { roomId: room.Id },
+                    success: function (succ) {
+                        console.log(succ);
+                        self.activate();
+                    }
+                });
+            };
+
+            self.unSubscribe = function (room) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UnSubscribe")',
+                    data: { roomId: room.Id },
+                    success: function (succ) {
+                        console.log(succ);
+                        self.activate();
+                    }
+                });
+            };
+        }
+
+        var vm = new ReservationsViewModel();
+
+        ko.applyBindings(vm);
+
+        vm.activate();
+    });
+
+
+
+</script>

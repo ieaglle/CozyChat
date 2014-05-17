@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Rooms";
+}
+
+<h2>Rooms</h2>
+
+
+<div class="row">
+    
+    <div class="col-md-2">
+        
+        <div class="btn-group-vertical" data-bind="foreach: chatRooms">
+            <button type="button" class="btn btn-default btn-sm" data-bind="text: Name, click: $root.selectRoom"></button>
+        </div>
+    </div>
+    <div class="col-md-8">Messages</div>
+    <div class="col-md-2">
+        <ul data-bind="foreach: currentRoomUsers">
+            <li><span data-bind="text: Name"></span></li>
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+     $(document).ready(function() {
+
+         function RoomsViewModel() {
+             var self = this;
+
+             self.chatRooms = ko.observableArray();
+             self.currentRoomUsers = ko.observableArray();
+             self.currentRoomMessages = ko.observableArray();
+
+             self.activate = function() {
+                 $.ajax({
+                     type: 'GET',
+                     url: '@Url.Action("GetSubscribedRooms")',
+                     success: function(content) {
+                         vm.chatRooms(content);
+                         console.log(content);
+                     }
+                 });
+             }
+
+             self.selectRoom = function(selecteGroup) {
+                 $.ajax({
+                     type: 'GET',
+                     url: '@Url.Action("GetUsersSubscribedToRoom")',
+                     data: { roomId: selecteGroup.Id },
+                     success: function (content) {
+                         vm.currentRoomUsers(content);
+                         console.log(content);
+                     }
+                 });
+             };
+         }
+
+         var vm = new RoomsViewModel();
+         ko.applyBindings(vm);
+         vm.activate();
+
+     });
+ </script>
+
