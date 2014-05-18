@@ -218,10 +218,10 @@
     <Content Include="Service References\CozyChatServiceProxy\CozyChat.Web.CozyChatServiceProxy.ChatRoom.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\CozyChatServiceProxy\CozyChat.Web.CozyChatServiceProxy.User.datasource">
+    <Content Include="Service References\CozyChatServiceProxy\CozyChat.Web.CozyChatServiceProxy.Message.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
-    <Content Include="Service References\CozyChatServiceProxy\CozyChat.Web.CozyChatServiceProxy.Message.datasource">
+    <Content Include="Service References\CozyChatServiceProxy\CozyChat.Web.CozyChatServiceProxy.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
     <None Include="Service References\CozyChatServiceProxy\Reference.svcmap">

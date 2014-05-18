@@ -104,6 +104,18 @@
   <wsdl:message name="ICozyChatService_CheckLogin_OutputMessage">
     <wsdl:part name="parameters" element="tns:CheckLoginResponse" />
   </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetUserById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserById" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetUserById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetUserByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserByName" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetUserByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserByNameResponse" />
+  </wsdl:message>
   <wsdl:message name="ICozyChatService_SendMessage_InputMessage">
     <wsdl:part name="parameters" element="tns:SendMessage" />
   </wsdl:message>
@@ -150,6 +162,14 @@
     <wsdl:operation name="CheckLogin">
       <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/CheckLogin" message="tns:ICozyChatService_CheckLogin_InputMessage" />
       <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/CheckLoginResponse" message="tns:ICozyChatService_CheckLogin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserById">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/GetUserById" message="tns:ICozyChatService_GetUserById_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/GetUserByIdResponse" message="tns:ICozyChatService_GetUserById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserByName">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/GetUserByName" message="tns:ICozyChatService_GetUserByName_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/GetUserByNameResponse" message="tns:ICozyChatService_GetUserByName_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="SendMessage">
       <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/SendMessage" message="tns:ICozyChatService_SendMessage_InputMessage" />
@@ -243,6 +263,24 @@
     </wsdl:operation>
     <wsdl:operation name="CheckLogin">
       <soap12:operation soapAction="http://tempuri.org/ICozyChatService/CheckLogin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserById">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/GetUserById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserByName">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/GetUserByName" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

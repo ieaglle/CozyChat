@@ -420,6 +420,18 @@ namespace CozyChat.Web.CozyChatServiceProxy {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/CheckLogin", ReplyAction="http://tempuri.org/ICozyChatService/CheckLoginResponse")]
         System.Threading.Tasks.Task<CozyChat.Web.CozyChatServiceProxy.User> CheckLoginAsync(string name, string password);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetUserById", ReplyAction="http://tempuri.org/ICozyChatService/GetUserByIdResponse")]
+        CozyChat.Web.CozyChatServiceProxy.User GetUserById(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetUserById", ReplyAction="http://tempuri.org/ICozyChatService/GetUserByIdResponse")]
+        System.Threading.Tasks.Task<CozyChat.Web.CozyChatServiceProxy.User> GetUserByIdAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetUserByName", ReplyAction="http://tempuri.org/ICozyChatService/GetUserByNameResponse")]
+        CozyChat.Web.CozyChatServiceProxy.User GetUserByName(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetUserByName", ReplyAction="http://tempuri.org/ICozyChatService/GetUserByNameResponse")]
+        System.Threading.Tasks.Task<CozyChat.Web.CozyChatServiceProxy.User> GetUserByNameAsync(string name);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/SendMessage", ReplyAction="http://tempuri.org/ICozyChatService/SendMessageResponse")]
         bool SendMessage(int senderId, string content, System.Nullable<int> userId, System.Nullable<int> chatRoomId);
         
@@ -532,6 +544,22 @@ namespace CozyChat.Web.CozyChatServiceProxy {
         
         public System.Threading.Tasks.Task<CozyChat.Web.CozyChatServiceProxy.User> CheckLoginAsync(string name, string password) {
             return base.Channel.CheckLoginAsync(name, password);
+        }
+        
+        public CozyChat.Web.CozyChatServiceProxy.User GetUserById(int userId) {
+            return base.Channel.GetUserById(userId);
+        }
+        
+        public System.Threading.Tasks.Task<CozyChat.Web.CozyChatServiceProxy.User> GetUserByIdAsync(int userId) {
+            return base.Channel.GetUserByIdAsync(userId);
+        }
+        
+        public CozyChat.Web.CozyChatServiceProxy.User GetUserByName(string name) {
+            return base.Channel.GetUserByName(name);
+        }
+        
+        public System.Threading.Tasks.Task<CozyChat.Web.CozyChatServiceProxy.User> GetUserByNameAsync(string name) {
+            return base.Channel.GetUserByNameAsync(name);
         }
         
         public bool SendMessage(int senderId, string content, System.Nullable<int> userId, System.Nullable<int> chatRoomId) {

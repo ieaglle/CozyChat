@@ -40,8 +40,7 @@
     </tbody>
 </table>
 
-<button data-bind="click: addRoom">Create</button>
-
+<button type="button" class="btn btn-default" data-bind="click: addRoom">Create</button>
 
 <script type="text/javascript">
 
@@ -56,25 +55,26 @@
                 $.ajax({
                     type: 'GET',
                     url: '@Url.Action("GetAllChatRooms")',
-                    success: function (content) {
+                    success: function(content) {
                         vm.chatRooms(content);
                         console.log(content);
                     }
                 });
             }
 
-            self.addRoom = function () {
+            self.addRoom = function() {
                 var name = prompt('Room Name');
-
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("CreateChatRoom")',
+                if (name) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("CreateChatRoom")',
                     data: {roomName : name},
                     success: function (newRoom) {
                         console.log(newRoom);
                         self.chatRooms.push(newRoom);
                     }
                 });
+                }
             }
 
             self.deleteRoom = function (room) {

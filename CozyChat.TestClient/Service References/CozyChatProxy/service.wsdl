@@ -62,6 +62,36 @@
   <wsdl:message name="ICozyChatService_DeleteChatRoom_OutputMessage">
     <wsdl:part name="parameters" element="tns:DeleteChatRoomResponse" />
   </wsdl:message>
+  <wsdl:message name="ICozyChatService_SubscribeUserForRoom_InputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeUserForRoom" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_SubscribeUserForRoom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeUserForRoomResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_UnSubscribeUserForRoom_InputMessage">
+    <wsdl:part name="parameters" element="tns:UnSubscribeUserForRoom" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_UnSubscribeUserForRoom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnSubscribeUserForRoomResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetSubscribedChatRooms_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetSubscribedChatRooms" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetSubscribedChatRooms_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetSubscribedChatRoomsResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetUsersSubscribedToChatRoom_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsersSubscribedToChatRoom" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetUsersSubscribedToChatRoom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUsersSubscribedToChatRoomResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetMessagesForChatRoom_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMessagesForChatRoom" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetMessagesForChatRoom_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMessagesForChatRoomResponse" />
+  </wsdl:message>
   <wsdl:message name="ICozyChatService_RegisterUser_InputMessage">
     <wsdl:part name="parameters" element="tns:RegisterUser" />
   </wsdl:message>
@@ -73,6 +103,18 @@
   </wsdl:message>
   <wsdl:message name="ICozyChatService_CheckLogin_OutputMessage">
     <wsdl:part name="parameters" element="tns:CheckLoginResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetUserById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserById" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetUserById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetUserByName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserByName" />
+  </wsdl:message>
+  <wsdl:message name="ICozyChatService_GetUserByName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserByNameResponse" />
   </wsdl:message>
   <wsdl:message name="ICozyChatService_SendMessage_InputMessage">
     <wsdl:part name="parameters" element="tns:SendMessage" />
@@ -93,6 +135,26 @@
       <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/DeleteChatRoom" message="tns:ICozyChatService_DeleteChatRoom_InputMessage" />
       <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/DeleteChatRoomResponse" message="tns:ICozyChatService_DeleteChatRoom_OutputMessage" />
     </wsdl:operation>
+    <wsdl:operation name="SubscribeUserForRoom">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/SubscribeUserForRoom" message="tns:ICozyChatService_SubscribeUserForRoom_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/SubscribeUserForRoomResponse" message="tns:ICozyChatService_SubscribeUserForRoom_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UnSubscribeUserForRoom">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/UnSubscribeUserForRoom" message="tns:ICozyChatService_UnSubscribeUserForRoom_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/UnSubscribeUserForRoomResponse" message="tns:ICozyChatService_UnSubscribeUserForRoom_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscribedChatRooms">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/GetSubscribedChatRooms" message="tns:ICozyChatService_GetSubscribedChatRooms_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/GetSubscribedChatRoomsResponse" message="tns:ICozyChatService_GetSubscribedChatRooms_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUsersSubscribedToChatRoom">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/GetUsersSubscribedToChatRoom" message="tns:ICozyChatService_GetUsersSubscribedToChatRoom_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/GetUsersSubscribedToChatRoomResponse" message="tns:ICozyChatService_GetUsersSubscribedToChatRoom_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMessagesForChatRoom">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/GetMessagesForChatRoom" message="tns:ICozyChatService_GetMessagesForChatRoom_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/GetMessagesForChatRoomResponse" message="tns:ICozyChatService_GetMessagesForChatRoom_OutputMessage" />
+    </wsdl:operation>
     <wsdl:operation name="RegisterUser">
       <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/RegisterUser" message="tns:ICozyChatService_RegisterUser_InputMessage" />
       <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/RegisterUserResponse" message="tns:ICozyChatService_RegisterUser_OutputMessage" />
@@ -100,6 +162,14 @@
     <wsdl:operation name="CheckLogin">
       <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/CheckLogin" message="tns:ICozyChatService_CheckLogin_InputMessage" />
       <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/CheckLoginResponse" message="tns:ICozyChatService_CheckLogin_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserById">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/GetUserById" message="tns:ICozyChatService_GetUserById_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/GetUserByIdResponse" message="tns:ICozyChatService_GetUserById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserByName">
+      <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/GetUserByName" message="tns:ICozyChatService_GetUserByName_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/ICozyChatService/GetUserByNameResponse" message="tns:ICozyChatService_GetUserByName_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="SendMessage">
       <wsdl:input wsam:Action="http://tempuri.org/ICozyChatService/SendMessage" message="tns:ICozyChatService_SendMessage_InputMessage" />
@@ -137,6 +207,51 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="SubscribeUserForRoom">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/SubscribeUserForRoom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnSubscribeUserForRoom">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/UnSubscribeUserForRoom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetSubscribedChatRooms">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/GetSubscribedChatRooms" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUsersSubscribedToChatRoom">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/GetUsersSubscribedToChatRoom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMessagesForChatRoom">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/GetMessagesForChatRoom" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="RegisterUser">
       <soap12:operation soapAction="http://tempuri.org/ICozyChatService/RegisterUser" style="document" />
       <wsdl:input>
@@ -148,6 +263,24 @@
     </wsdl:operation>
     <wsdl:operation name="CheckLogin">
       <soap12:operation soapAction="http://tempuri.org/ICozyChatService/CheckLogin" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserById">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/GetUserById" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserByName">
+      <soap12:operation soapAction="http://tempuri.org/ICozyChatService/GetUserByName" style="document" />
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>

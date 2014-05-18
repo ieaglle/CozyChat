@@ -12,6 +12,17 @@
     @Scripts.Render("~/bundles/bootstrap")
     
     <script src="~/signalr/hubs"></script>
+    
+    <script type="text/javascript">
+    $.ajaxSetup({
+        beforeSend: function () {
+            $("#loading-indicator").show();
+        },
+        complete: function () {
+            $("#loading-indicator").hide();
+        }
+    });
+    </script>
 
 </head>
 <body>
@@ -47,15 +58,5 @@
 
     @RenderSection("scripts", required: false)
     
-    <script type="text/javascript">
-        $.ajaxSetup({
-            beforeSend: function () {
-                $("#loading-indicator").show();
-            },
-            complete: function () {
-                $("#loading-indicator").hide();
-            }
-        });
-    </script>
 </body>
 </html>

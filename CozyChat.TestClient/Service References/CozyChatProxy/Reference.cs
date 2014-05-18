@@ -15,7 +15,7 @@ namespace CozyChat.TestClient.CozyChatProxy {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="ChatRoom", Namespace="http://schemas.datacontract.org/2004/07/CozyChat.Model")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ChatRoom", Namespace="http://schemas.datacontract.org/2004/07/CozyChat.Model", IsReference=true)]
     [System.SerializableAttribute()]
     public partial class ChatRoom : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -172,7 +172,7 @@ namespace CozyChat.TestClient.CozyChatProxy {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="User", Namespace="http://schemas.datacontract.org/2004/07/CozyChat.Model")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="User", Namespace="http://schemas.datacontract.org/2004/07/CozyChat.Model", IsReference=true)]
     [System.SerializableAttribute()]
     public partial class User : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -329,42 +329,12 @@ namespace CozyChat.TestClient.CozyChatProxy {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="Message", Namespace="http://schemas.datacontract.org/2004/07/CozyChat.Model")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="Message", Namespace="http://schemas.datacontract.org/2004/07/CozyChat.Model", IsReference=true)]
     [System.SerializableAttribute()]
     public partial class Message : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private CozyChat.TestClient.CozyChatProxy.ChatRoom ChatRoomField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> ChatRoomIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string ContentField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int IdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool IsReadField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private CozyChat.TestClient.CozyChatProxy.User ReceiverField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.Nullable<int> ReceiverIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private CozyChat.TestClient.CozyChatProxy.User SenderField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private int SenderIdField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private System.DateTime SentDateField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -373,136 +343,6 @@ namespace CozyChat.TestClient.CozyChatProxy {
             }
             set {
                 this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public CozyChat.TestClient.CozyChatProxy.ChatRoom ChatRoom {
-            get {
-                return this.ChatRoomField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ChatRoomField, value) != true)) {
-                    this.ChatRoomField = value;
-                    this.RaisePropertyChanged("ChatRoom");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> ChatRoomId {
-            get {
-                return this.ChatRoomIdField;
-            }
-            set {
-                if ((this.ChatRoomIdField.Equals(value) != true)) {
-                    this.ChatRoomIdField = value;
-                    this.RaisePropertyChanged("ChatRoomId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Content {
-            get {
-                return this.ContentField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ContentField, value) != true)) {
-                    this.ContentField = value;
-                    this.RaisePropertyChanged("Content");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int Id {
-            get {
-                return this.IdField;
-            }
-            set {
-                if ((this.IdField.Equals(value) != true)) {
-                    this.IdField = value;
-                    this.RaisePropertyChanged("Id");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool IsRead {
-            get {
-                return this.IsReadField;
-            }
-            set {
-                if ((this.IsReadField.Equals(value) != true)) {
-                    this.IsReadField = value;
-                    this.RaisePropertyChanged("IsRead");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public CozyChat.TestClient.CozyChatProxy.User Receiver {
-            get {
-                return this.ReceiverField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.ReceiverField, value) != true)) {
-                    this.ReceiverField = value;
-                    this.RaisePropertyChanged("Receiver");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.Nullable<int> ReceiverId {
-            get {
-                return this.ReceiverIdField;
-            }
-            set {
-                if ((this.ReceiverIdField.Equals(value) != true)) {
-                    this.ReceiverIdField = value;
-                    this.RaisePropertyChanged("ReceiverId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public CozyChat.TestClient.CozyChatProxy.User Sender {
-            get {
-                return this.SenderField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.SenderField, value) != true)) {
-                    this.SenderField = value;
-                    this.RaisePropertyChanged("Sender");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public int SenderId {
-            get {
-                return this.SenderIdField;
-            }
-            set {
-                if ((this.SenderIdField.Equals(value) != true)) {
-                    this.SenderIdField = value;
-                    this.RaisePropertyChanged("SenderId");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public System.DateTime SentDate {
-            get {
-                return this.SentDateField;
-            }
-            set {
-                if ((this.SentDateField.Equals(value) != true)) {
-                    this.SentDateField = value;
-                    this.RaisePropertyChanged("SentDate");
-                }
             }
         }
         
@@ -538,6 +378,36 @@ namespace CozyChat.TestClient.CozyChatProxy {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/DeleteChatRoom", ReplyAction="http://tempuri.org/ICozyChatService/DeleteChatRoomResponse")]
         System.Threading.Tasks.Task<bool> DeleteChatRoomAsync(int userId, int chatRoomId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/SubscribeUserForRoom", ReplyAction="http://tempuri.org/ICozyChatService/SubscribeUserForRoomResponse")]
+        bool SubscribeUserForRoom(int userId, int roomId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/SubscribeUserForRoom", ReplyAction="http://tempuri.org/ICozyChatService/SubscribeUserForRoomResponse")]
+        System.Threading.Tasks.Task<bool> SubscribeUserForRoomAsync(int userId, int roomId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/UnSubscribeUserForRoom", ReplyAction="http://tempuri.org/ICozyChatService/UnSubscribeUserForRoomResponse")]
+        bool UnSubscribeUserForRoom(int userId, int roomId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/UnSubscribeUserForRoom", ReplyAction="http://tempuri.org/ICozyChatService/UnSubscribeUserForRoomResponse")]
+        System.Threading.Tasks.Task<bool> UnSubscribeUserForRoomAsync(int userId, int roomId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetSubscribedChatRooms", ReplyAction="http://tempuri.org/ICozyChatService/GetSubscribedChatRoomsResponse")]
+        CozyChat.TestClient.CozyChatProxy.ChatRoom[] GetSubscribedChatRooms(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetSubscribedChatRooms", ReplyAction="http://tempuri.org/ICozyChatService/GetSubscribedChatRoomsResponse")]
+        System.Threading.Tasks.Task<CozyChat.TestClient.CozyChatProxy.ChatRoom[]> GetSubscribedChatRoomsAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetUsersSubscribedToChatRoom", ReplyAction="http://tempuri.org/ICozyChatService/GetUsersSubscribedToChatRoomResponse")]
+        CozyChat.TestClient.CozyChatProxy.User[] GetUsersSubscribedToChatRoom(int chatRoomId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetUsersSubscribedToChatRoom", ReplyAction="http://tempuri.org/ICozyChatService/GetUsersSubscribedToChatRoomResponse")]
+        System.Threading.Tasks.Task<CozyChat.TestClient.CozyChatProxy.User[]> GetUsersSubscribedToChatRoomAsync(int chatRoomId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetMessagesForChatRoom", ReplyAction="http://tempuri.org/ICozyChatService/GetMessagesForChatRoomResponse")]
+        CozyChat.TestClient.CozyChatProxy.Message[] GetMessagesForChatRoom(int chatRoomId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetMessagesForChatRoom", ReplyAction="http://tempuri.org/ICozyChatService/GetMessagesForChatRoomResponse")]
+        System.Threading.Tasks.Task<CozyChat.TestClient.CozyChatProxy.Message[]> GetMessagesForChatRoomAsync(int chatRoomId);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/RegisterUser", ReplyAction="http://tempuri.org/ICozyChatService/RegisterUserResponse")]
         CozyChat.TestClient.CozyChatProxy.User RegisterUser(string name, string password);
         
@@ -549,6 +419,18 @@ namespace CozyChat.TestClient.CozyChatProxy {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/CheckLogin", ReplyAction="http://tempuri.org/ICozyChatService/CheckLoginResponse")]
         System.Threading.Tasks.Task<CozyChat.TestClient.CozyChatProxy.User> CheckLoginAsync(string name, string password);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetUserById", ReplyAction="http://tempuri.org/ICozyChatService/GetUserByIdResponse")]
+        CozyChat.TestClient.CozyChatProxy.User GetUserById(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetUserById", ReplyAction="http://tempuri.org/ICozyChatService/GetUserByIdResponse")]
+        System.Threading.Tasks.Task<CozyChat.TestClient.CozyChatProxy.User> GetUserByIdAsync(int userId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetUserByName", ReplyAction="http://tempuri.org/ICozyChatService/GetUserByNameResponse")]
+        CozyChat.TestClient.CozyChatProxy.User GetUserByName(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/GetUserByName", ReplyAction="http://tempuri.org/ICozyChatService/GetUserByNameResponse")]
+        System.Threading.Tasks.Task<CozyChat.TestClient.CozyChatProxy.User> GetUserByNameAsync(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICozyChatService/SendMessage", ReplyAction="http://tempuri.org/ICozyChatService/SendMessageResponse")]
         bool SendMessage(int senderId, string content, System.Nullable<int> userId, System.Nullable<int> chatRoomId);
@@ -608,6 +490,46 @@ namespace CozyChat.TestClient.CozyChatProxy {
             return base.Channel.DeleteChatRoomAsync(userId, chatRoomId);
         }
         
+        public bool SubscribeUserForRoom(int userId, int roomId) {
+            return base.Channel.SubscribeUserForRoom(userId, roomId);
+        }
+        
+        public System.Threading.Tasks.Task<bool> SubscribeUserForRoomAsync(int userId, int roomId) {
+            return base.Channel.SubscribeUserForRoomAsync(userId, roomId);
+        }
+        
+        public bool UnSubscribeUserForRoom(int userId, int roomId) {
+            return base.Channel.UnSubscribeUserForRoom(userId, roomId);
+        }
+        
+        public System.Threading.Tasks.Task<bool> UnSubscribeUserForRoomAsync(int userId, int roomId) {
+            return base.Channel.UnSubscribeUserForRoomAsync(userId, roomId);
+        }
+        
+        public CozyChat.TestClient.CozyChatProxy.ChatRoom[] GetSubscribedChatRooms(int userId) {
+            return base.Channel.GetSubscribedChatRooms(userId);
+        }
+        
+        public System.Threading.Tasks.Task<CozyChat.TestClient.CozyChatProxy.ChatRoom[]> GetSubscribedChatRoomsAsync(int userId) {
+            return base.Channel.GetSubscribedChatRoomsAsync(userId);
+        }
+        
+        public CozyChat.TestClient.CozyChatProxy.User[] GetUsersSubscribedToChatRoom(int chatRoomId) {
+            return base.Channel.GetUsersSubscribedToChatRoom(chatRoomId);
+        }
+        
+        public System.Threading.Tasks.Task<CozyChat.TestClient.CozyChatProxy.User[]> GetUsersSubscribedToChatRoomAsync(int chatRoomId) {
+            return base.Channel.GetUsersSubscribedToChatRoomAsync(chatRoomId);
+        }
+        
+        public CozyChat.TestClient.CozyChatProxy.Message[] GetMessagesForChatRoom(int chatRoomId) {
+            return base.Channel.GetMessagesForChatRoom(chatRoomId);
+        }
+        
+        public System.Threading.Tasks.Task<CozyChat.TestClient.CozyChatProxy.Message[]> GetMessagesForChatRoomAsync(int chatRoomId) {
+            return base.Channel.GetMessagesForChatRoomAsync(chatRoomId);
+        }
+        
         public CozyChat.TestClient.CozyChatProxy.User RegisterUser(string name, string password) {
             return base.Channel.RegisterUser(name, password);
         }
@@ -622,6 +544,22 @@ namespace CozyChat.TestClient.CozyChatProxy {
         
         public System.Threading.Tasks.Task<CozyChat.TestClient.CozyChatProxy.User> CheckLoginAsync(string name, string password) {
             return base.Channel.CheckLoginAsync(name, password);
+        }
+        
+        public CozyChat.TestClient.CozyChatProxy.User GetUserById(int userId) {
+            return base.Channel.GetUserById(userId);
+        }
+        
+        public System.Threading.Tasks.Task<CozyChat.TestClient.CozyChatProxy.User> GetUserByIdAsync(int userId) {
+            return base.Channel.GetUserByIdAsync(userId);
+        }
+        
+        public CozyChat.TestClient.CozyChatProxy.User GetUserByName(string name) {
+            return base.Channel.GetUserByName(name);
+        }
+        
+        public System.Threading.Tasks.Task<CozyChat.TestClient.CozyChatProxy.User> GetUserByNameAsync(string name) {
+            return base.Channel.GetUserByNameAsync(name);
         }
         
         public bool SendMessage(int senderId, string content, System.Nullable<int> userId, System.Nullable<int> chatRoomId) {

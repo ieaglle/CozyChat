@@ -44,6 +44,12 @@ namespace CozyChat.Service
         [OperationContract]
         Task<User> CheckLoginAsync(string name, string password);
 
+        [OperationContract]
+        Task<User> GetUserByIdAsync(int userId);
+
+        [OperationContract]
+        Task<User> GetUserByNameAsync(string name);
+
         #endregion
 
         [OperationContract]

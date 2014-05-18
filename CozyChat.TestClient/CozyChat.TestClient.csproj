@@ -60,6 +60,9 @@
     <None Include="Service References\CozyChatProxy\CozyChat.TestClient.CozyChatProxy.ChatRoom.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
+    <None Include="Service References\CozyChatProxy\CozyChat.TestClient.CozyChatProxy.Message.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\CozyChatProxy\CozyChat.TestClient.CozyChatProxy.User.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

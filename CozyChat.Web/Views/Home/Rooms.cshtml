@@ -10,7 +10,7 @@
     <div class="col-md-2">
         
         <div class="btn-group-vertical" data-bind="foreach: chatRooms">
-            <button type="button" class="btn btn-default btn-sm" data-bind="text: Name, click: $root.selectRoom"></button>
+            <button type="button" class="btn btn-default btn-sm" data-bind="enable: $root.selectedRoom.Id != Id, text: Name, click: $root.selectRoom"></button>
         </div>
     </div>
     <div class="col-md-8">Messages</div>
@@ -25,48 +25,38 @@
 
      $(document).ready(function() {
 
-         var proxy = $.connection.cozyChatHub;
-         $.connection.hub.start();
-
-         proxy.client.notify = function(val) {
-             alert(val);
-         };
-         
-
          function RoomsViewModel() {
              var self = this;
 
              self.chatRooms = ko.observableArray();
              self.currentRoomUsers = ko.observableArray();
              self.currentRoomMessages = ko.observableArray();
-
              self.selectedRoom = ko.observable();
 
-             self.activate = function() {
+             self.activate = function () {
                  $.ajax({
                      type: 'GET',
                      url: '@Url.Action("GetSubscribedRooms")',
-                     success: function(content) {
+                     success: function (content) {
                          vm.chatRooms(content);
-                         console.log(content);
                      }
                  });
              }
 
-             self.selectRoom = function(selectedRoom) {
+             self.selectRoom = function (room) {
                  $.ajax({
                      type: 'GET',
                      url: '@Url.Action("GetUsersSubscribedToRoom")',
-                     data: { roomId: selectedRoom.Id },
-                     success: function (content) {
-                         proxy.server.join('trololo');
+                     data: { roomId: room.Id },
+                     success: function (users) {
+                         //vm.currentRoomUsers(users);
 
-                         vm.currentRoomUsers(content);
+                         if (self.selectedRoom())
+                             proxy.server.leave(self.selectedRoom());
 
+                         self.selectedRoom(room);
 
-                         self.selectedRoom(content);
-
-                         console.log(content);
+                         proxy.server.join(self.selectedRoom());
                      }
                  });
              };
@@ -76,6 +66,20 @@
          ko.applyBindings(vm);
          vm.activate();
 
+         var proxy = $.connection.cozyChatHub;
+         $.connection.hub.start();
+
+         proxy.client.userJoined = function (users) {
+             vm.currentRoomUsers(users);
+         };
+
+         proxy.client.userLeft = function (users) {
+             vm.currentRoomUsers(users);
+         };
+
+         $(window).on('beforeunload', function () {
+             proxy.server.browserClosing(vm.selectedRoom());
+         });
      });
  </script>
 

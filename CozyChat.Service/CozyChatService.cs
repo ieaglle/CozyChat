@@ -9,113 +9,173 @@ namespace CozyChat.Service
 {
     public class CozyChatService : ICozyChatService
     {
-        private readonly CozyChatContext _context = new CozyChatContext();
-
-        public Task<List<ChatRoom>> GetChatRoomsAsync()
+        public async Task<List<ChatRoom>> GetChatRoomsAsync()
         {
-            return _context.ChatRooms
-                .Include(i => i.Creator)
-                .Include(i => i.Users)
-                .Where(w => w.IsCurrent).ToListAsync();
+            List<ChatRoom> rooms;
+            using (var ctx = new CozyChatContext())
+            {
+                rooms = await ctx.ChatRooms
+                            .Include(i => i.Creator)
+                            .Include(i => i.Users)
+                            .Where(w => w.IsCurrent)
+                            .ToListAsync();
+            }
+            return rooms;
         }
 
         public async Task<ChatRoom> CreateChatRoomAsync(int userId, string chatRoomName)
         {
-            var check = await _context.ChatRooms.FirstOrDefaultAsync(s => s.Name == chatRoomName && s.IsCurrent);
-            if (check != null)
-                return null;
+            ChatRoom room;
+            using (var ctx = new CozyChatContext())
+            {
+                var check = await ctx.ChatRooms.FirstOrDefaultAsync(s => s.Name == chatRoomName && s.IsCurrent);
+                if (check != null)
+                    return null;
 
-            _context.ChatRooms.Add(
-                new ChatRoom
-                {
-                    CreatorId = userId,
-                    Name = chatRoomName,
-                    CreatedDate = DateTime.Now,
-                    IsCurrent = true
-                });
-            await _context.SaveChangesAsync();
+                ctx.ChatRooms.Add(
+                    new ChatRoom
+                    {
+                        CreatorId = userId,
+                        Name = chatRoomName,
+                        CreatedDate = DateTime.Now,
+                        IsCurrent = true
+                    });
+                await ctx.SaveChangesAsync();
 
-            return await _context.ChatRooms.Include(i => i.Creator).FirstAsync(f => f.Name == chatRoomName);
+                room = await ctx.ChatRooms.Include(i => i.Creator).FirstAsync(f => f.Name == chatRoomName);
+            }
+            return room;
         }
 
         public async Task<bool> DeleteChatRoomAsync(int userId, int chatRoomId)
         {
-            var check = await _context.ChatRooms.FirstOrDefaultAsync(f => f.Id == chatRoomId);
+            using (var ctx = new CozyChatContext())
+            {
+                var check = await ctx.ChatRooms.FirstOrDefaultAsync(f => f.Id == chatRoomId);
 
-            if (check == null || check.CreatorId != userId)
-                return false;
+                if (check == null || check.CreatorId != userId)
+                    return false;
 
-            check.IsCurrent = false;
-            await _context.SaveChangesAsync();
-            return true;
+                check.IsCurrent = false;
+                await ctx.SaveChangesAsync();
+                return true;
+            }
         }
 
         public async Task<bool> SubscribeUserForRoomAsync(int userId, int roomId)
         {
-            var group = await _context.ChatRooms.Include(i => i.Users).FirstOrDefaultAsync(f => f.Id == roomId);
-            var user = await _context.Users.FirstOrDefaultAsync(f => f.Id == userId);
-            if (group != null && user != null)
+            using (var ctx = new CozyChatContext())
             {
-                group.Users.Add(user);
-                await _context.SaveChangesAsync();
-                return true;
+                var group = await ctx.ChatRooms.Include(i => i.Users).FirstOrDefaultAsync(f => f.Id == roomId);
+                var user = await ctx.Users.FirstOrDefaultAsync(f => f.Id == userId);
+                if (group != null && user != null)
+                {
+                    group.Users.Add(user);
+                    await ctx.SaveChangesAsync();
+                    return true;
+                }
+                return false;
             }
-            return false;
         }
 
         public async Task<bool> UnSubscribeUserForRoomAsync(int userId, int roomId)
         {
-            var group = await _context.ChatRooms.Include(i => i.Users).FirstOrDefaultAsync(f => f.Id == roomId);
-            var user = await _context.Users.FirstOrDefaultAsync(f => f.Id == userId);
-            if (group != null && user != null)
+            using (var ctx = new CozyChatContext())
             {
-                group.Users.Remove(user);
-                await _context.SaveChangesAsync();
-                return true;
+                var group = await ctx.ChatRooms.Include(i => i.Users).FirstOrDefaultAsync(f => f.Id == roomId);
+                var user = await ctx.Users.FirstOrDefaultAsync(f => f.Id == userId);
+                if (group != null && user != null)
+                {
+                    group.Users.Remove(user);
+                    await ctx.SaveChangesAsync();
+                    return true;
+                }
+                return false;
             }
-            return false;
         }
 
         public async Task<List<ChatRoom>> GetSubscribedChatRoomsAsync(int userId)
         {
-            return await _context.ChatRooms.Where(w => w.Users.Any(u => u.Id == userId)).ToListAsync();
+            List<ChatRoom> chatRooms;
+            using (var ctx = new CozyChatContext())
+            {
+                chatRooms = await ctx.ChatRooms.Where(w => w.Users.Any(u => u.Id == userId)).ToListAsync();
+            }
+            return chatRooms;
         }
 
         public async Task<List<User>> GetUsersSubscribedToChatRoomAsync(int chatRoomId)
         {
-            return await _context.Users.Where(w => w.ChatRooms.Any(c => c.Id == chatRoomId)).ToListAsync();
+            List<User> users;
+            using (var ctx = new CozyChatContext())
+            {
+                users = await ctx.Users.Where(w => w.ChatRooms.Any(c => c.Id == chatRoomId)).ToListAsync();
+            }
+            return users;
         }
 
         public async Task<List<Message>> GetMessagesForChatRoomAsync(int chatRoomId)
         {
-            return await _context.Messages.Where(w => w.ChatRoomId == chatRoomId).OrderBy(o => o.SentDate).ToListAsync();
+            List<Message> messages;
+            using (var ctx = new CozyChatContext())
+            {
+                messages = await ctx.Messages.Where(w => w.ChatRoomId == chatRoomId).OrderBy(o => o.SentDate).ToListAsync();
+            }
+            return messages;
         }
 
         public async Task<User> RegisterUserAsync(string name, string password)
         {
-            var check = await _context.Users.FirstOrDefaultAsync(f => f.Name == name);
+            User user;
+            using (var ctx = new CozyChatContext())
+            {
+                var check = await ctx.Users.FirstOrDefaultAsync(f => f.Name == name);
 
-            if (check != null)
-                return null;
+                if (check != null)
+                    return null;
 
-            var usr = _context.Users.Add(
-                new User
-                {
-                    Name = name,
-                    Password = password,
-                    RegisteredDate = DateTime.Now,
-                    LastSeenDate = DateTime.Now
-                });
+                user = ctx.Users.Add(
+                    new User
+                    {
+                        Name = name,
+                        Password = password,
+                        RegisteredDate = DateTime.Now,
+                        LastSeenDate = DateTime.Now
+                    });
 
-            await _context.SaveChangesAsync();
-
-            return usr;
+                await ctx.SaveChangesAsync();
+            }
+            return user;
         }
 
         public async Task<User> CheckLoginAsync(string name, string password)
         {
-            var check = await _context.Users.FirstOrDefaultAsync(f => f.Name == name && f.Password == password);
-            return check;
+            User user;
+            using (var ctx = new CozyChatContext())
+            {
+                user = await ctx.Users.FirstOrDefaultAsync(f => f.Name == name && f.Password == password);
+            }
+            return user;
+        }
+
+        public async Task<User> GetUserByIdAsync(int userId)
+        {
+            User user;
+            using (var ctx = new CozyChatContext())
+            {
+                user = await ctx.Users.FirstOrDefaultAsync(f => f.Id == userId);
+            }
+            return user;
+        }
+
+        public async Task<User> GetUserByNameAsync(string name)
+        {
+            User user;
+            using (var ctx = new CozyChatContext())
+            {
+                user = await ctx.Users.FirstOrDefaultAsync(f => f.Name == name);
+            }
+            return user;
         }
 
         public async Task<bool> SendMessageAsync(int senderId, string content, int? userId, int? chatRoomId)
@@ -130,10 +190,12 @@ namespace CozyChat.Service
                 IsRead = false
             };
 
-            _context.Messages.Add(message);
+            using (var ctx = new CozyChatContext())
+            {
+                ctx.Messages.Add(message);
 
-            await _context.SaveChangesAsync();
-
+                await ctx.SaveChangesAsync();
+            }
             return true;
         }
     }
