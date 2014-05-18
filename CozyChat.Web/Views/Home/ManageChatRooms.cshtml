@@ -47,7 +47,7 @@
 
     $(document).ready(function() {
 
-        function ReservationsViewModel() {
+        function ManageRoomsViewModel() {
             var self = this;
 
             self.chatRooms = ko.observableArray();
@@ -114,10 +114,8 @@
             };
         }
 
-        var vm = new ReservationsViewModel();
-
+        var vm = new ManageRoomsViewModel();
         ko.applyBindings(vm);
-
         vm.activate();
     });
 

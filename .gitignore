@@ -2,6 +2,9 @@
 ## Eclipse
 #################
 
+/packages/*
+!/packages/repositories.config
+
 *.pydevproject
 .project
 .metadata

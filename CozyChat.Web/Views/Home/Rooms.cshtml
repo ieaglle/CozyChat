@@ -25,12 +25,22 @@
 
      $(document).ready(function() {
 
+         var proxy = $.connection.cozyChatHub;
+         $.connection.hub.start();
+
+         proxy.client.notify = function(val) {
+             alert(val);
+         };
+         
+
          function RoomsViewModel() {
              var self = this;
 
              self.chatRooms = ko.observableArray();
              self.currentRoomUsers = ko.observableArray();
              self.currentRoomMessages = ko.observableArray();
+
+             self.selectedRoom = ko.observable();
 
              self.activate = function() {
                  $.ajax({
@@ -43,13 +53,19 @@
                  });
              }
 
-             self.selectRoom = function(selecteGroup) {
+             self.selectRoom = function(selectedRoom) {
                  $.ajax({
                      type: 'GET',
                      url: '@Url.Action("GetUsersSubscribedToRoom")',
-                     data: { roomId: selecteGroup.Id },
+                     data: { roomId: selectedRoom.Id },
                      success: function (content) {
+                         proxy.server.join('trololo');
+
                          vm.currentRoomUsers(content);
+
+
+                         self.selectedRoom(content);
+
                          console.log(content);
                      }
                  });
