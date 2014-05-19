@@ -7,10 +7,10 @@
 
 <div class="row">
     
-    <div class="col-md-2">
+    <div class="col-md-3">
         
-        <div class="btn-group-vertical" data-bind="foreach: chatRooms">
-            <button type="button" class="btn btn-default btn-sm" data-bind="enable: $root.selectedRoom.Id != Id, text: Name, click: $root.selectRoom"></button>
+        <div class="list-group" data-bind="foreach: chatRooms">
+            <a href="#" data-bind="text: Name, css: $root.roomClassName(Id), click: $root.selectRoom"></a>
         </div>
     </div>
     <div class="col-md-8">Messages</div>
@@ -23,42 +23,44 @@
 
 <script type="text/javascript">
 
-     $(document).ready(function() {
+    $(document).ready(function() {
 
-         function RoomsViewModel() {
-             var self = this;
+        function RoomsViewModel() {
+            var self = this;
 
-             self.chatRooms = ko.observableArray();
-             self.currentRoomUsers = ko.observableArray();
-             self.currentRoomMessages = ko.observableArray();
-             self.selectedRoom = ko.observable();
+            self.chatRooms = ko.observableArray();
+            self.currentRoomUsers = ko.observableArray();
+            self.currentRoomMessages = ko.observableArray();
+            self.selectedRoom = ko.observable();
 
-             self.activate = function () {
-                 $.ajax({
-                     type: 'GET',
-                     url: '@Url.Action("GetSubscribedRooms")',
-                     success: function (content) {
+            self.roomClassName = function(id) {
+                if (self.selectedRoom() && self.selectedRoom().Id == id)
+                    return 'list-group-item active';
+                return 'list-group-item';
+            };
+
+            self.activate = function() {
+                $.ajax({
+                    type: 'GET',
+                    url: '@Url.Action("GetSubscribedRooms")',
+                     success: function(content) {
                          vm.chatRooms(content);
                      }
                  });
-             }
+             };
 
-             self.selectRoom = function (room) {
-                 $.ajax({
-                     type: 'GET',
-                     url: '@Url.Action("GetUsersSubscribedToRoom")',
-                     data: { roomId: room.Id },
-                     success: function (users) {
-                         //vm.currentRoomUsers(users);
+             self.selectRoom = function(room) {
 
-                         if (self.selectedRoom())
-                             proxy.server.leave(self.selectedRoom());
+                 if (!self.selectedRoom()) {
+                     self.selectedRoom(room);
+                     proxy.server.join(self.selectedRoom());
+                 }
 
-                         self.selectedRoom(room);
-
-                         proxy.server.join(self.selectedRoom());
-                     }
-                 });
+                 if (self.selectedRoom() && self.selectedRoom().Id != room.Id) {
+                     proxy.server.leave(self.selectedRoom());
+                     self.selectedRoom(room);
+                     proxy.server.join(self.selectedRoom());
+                 };
              };
          }
 
@@ -67,18 +69,19 @@
          vm.activate();
 
          var proxy = $.connection.cozyChatHub;
+         $.connection.hub.logging = true;
          $.connection.hub.start();
-
          proxy.client.userJoined = function (users) {
              vm.currentRoomUsers(users);
          };
-
          proxy.client.userLeft = function (users) {
              vm.currentRoomUsers(users);
          };
-
+        proxy.client.notify = function(val) {
+            alert(val);
+        };
          $(window).on('beforeunload', function () {
-             proxy.server.browserClosing(vm.selectedRoom());
+             proxy.server.leave(vm.selectedRoom());
          });
      });
  </script>

@@ -12,6 +12,7 @@ using Microsoft.AspNet.SignalR;
 
 namespace CozyChat.Web.SignalR
 {
+    [Authorize]
     public class CozyChatHub : Hub
     {
         private static readonly ConcurrentDictionary<string, List<User>> OnlineUsers = new ConcurrentDictionary<string, List<User>>();
@@ -57,6 +58,8 @@ namespace CozyChat.Web.SignalR
 
         public void Leave(ChatRoomModel room)
         {
+            if (room == null) return;
+
             Groups.Remove(Context.ConnectionId, room.Name);
 
             UserClients[Context.User.Identity.Name].Remove(Context.ConnectionId);
@@ -67,9 +70,9 @@ namespace CozyChat.Web.SignalR
             _proxy.Close();
         }
 
-        public void BrowserClosing(ChatRoomModel group)
+        public void BrowserClosing(ChatRoomModel room)
         {
-            
+            Leave(room);
         }
     }
 }

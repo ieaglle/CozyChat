@@ -5,7 +5,9 @@ using System.Web.Mvc;
 using CozyChat.Web.CozyChatServiceProxy;
 using CozyChat.Web.Extensions;
 using CozyChat.Web.Models;
+using CozyChat.Web.SignalR;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 
 namespace CozyChat.Web.Controllers
 {
@@ -42,60 +44,62 @@ namespace CozyChat.Web.Controllers
             return View();
         }
 
-        [Authorize]
+        [System.Web.Mvc.Authorize]
         public ActionResult PrivateMessages()
         {
             return View();
         }
 
-        [Authorize]
+        [System.Web.Mvc.Authorize]
         public ActionResult ManageChatRooms()
         {
+            var a = GlobalHost.ConnectionManager.GetHubContext<CozyChatHub>();
+            a.Clients.All.Notify("trololo");
             return View();
         }
 
-        [Authorize]
+        [System.Web.Mvc.Authorize]
         public ActionResult Room(int id)
         {
             var a = id;
             return View();
         }
 
-        [Authorize]
+        [System.Web.Mvc.Authorize]
         public ActionResult Rooms()
         {
             return View();
         }
 
-        [Authorize, HttpGet]
+        [System.Web.Mvc.Authorize, HttpGet]
         public async Task<JsonNetResult> GetAllChatRooms()
         {
             var res = await _proxy.GetChatRoomsAsync();
             return new JsonNetResult { Data = res.Select(_converter) };
         }
 
-        [Authorize, HttpGet]
+        [System.Web.Mvc.Authorize, HttpGet]
         public async Task<JsonNetResult> GetSubscribedRooms()
         {
             var res = await _proxy.GetSubscribedChatRoomsAsync(int.Parse(User.Identity.GetUserId()));
             return new JsonNetResult {Data = res.Select(_converter)};
         }
 
-        [Authorize, HttpGet]
+        [System.Web.Mvc.Authorize, HttpGet]
         public async Task<JsonNetResult> GetUsersSubscribedToRoom(int roomId)
         {
             var res = await _proxy.GetUsersSubscribedToChatRoomAsync(roomId);
             return new JsonNetResult {Data = res};
         }
 
-        [Authorize, HttpGet]
+        [System.Web.Mvc.Authorize, HttpGet]
         public async Task<JsonNetResult> GetMessagesForRoom(int roomId)
         {
             var res = await _proxy.GetMessagesForChatRoomAsync(roomId);
             return new JsonNetResult {Data = res};
         }
             
-        [Authorize,HttpPost]
+        [System.Web.Mvc.Authorize,HttpPost]
         public async Task<JsonNetResult> CreateChatRoom(string roomName)
         {
             
@@ -103,21 +107,21 @@ namespace CozyChat.Web.Controllers
             return new JsonNetResult {Data = _converter(room)};
         }
 
-        [Authorize, HttpDelete]
+        [System.Web.Mvc.Authorize, HttpDelete]
         public async Task<bool> DeleteChatRoom(int roomId)
         {
             var succ = await _proxy.DeleteChatRoomAsync(int.Parse(User.Identity.GetUserId()), roomId);
             return succ;
         }
 
-        [Authorize, HttpPost]
+        [System.Web.Mvc.Authorize, HttpPost]
         public async Task<bool> Subscribe(int roomId)
         {
             var succ = await _proxy.SubscribeUserForRoomAsync(int.Parse(User.Identity.GetUserId()), roomId);
             return succ;
         }
 
-        [Authorize, HttpPost]
+        [System.Web.Mvc.Authorize, HttpPost]
         public async Task<bool> UnSubscribe(int roomId)
         {
             var succ = await _proxy.UnSubscribeUserForRoomAsync(int.Parse(User.Identity.GetUserId()), roomId);
