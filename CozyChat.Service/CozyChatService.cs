@@ -114,12 +114,17 @@ namespace CozyChat.Service
             return users;
         }
 
-        public async Task<List<Message>> GetMessagesForChatRoomAsync(int chatRoomId)
+        public async Task<List<Message>> GetMessagesForChatRoomAsync(int userId, int chatRoomId)
         {
             List<Message> messages;
             using (var ctx = new CozyChatContext())
             {
-                messages = await ctx.Messages.Where(w => w.ChatRoomId == chatRoomId).OrderBy(o => o.SentDate).ToListAsync();
+                messages = await ctx.Messages.Include(i => i.Sender)
+                    .Where(w => 
+                        (w.ChatRoomId == chatRoomId && !w.ReceiverId.HasValue) || 
+                        w.ReceiverId.HasValue && w.ReceiverId == userId && w.ChatRoomId == chatRoomId)
+                        .OrderBy(o => o.SentDate)
+                        .ToListAsync();
             }
             return messages;
         }
@@ -178,7 +183,7 @@ namespace CozyChat.Service
             return user;
         }
 
-        public async Task<bool> SendMessageAsync(int senderId, string content, int? userId, int? chatRoomId)
+        public async Task<Message> SendMessageAsync(int senderId, string content, int? userId, int? chatRoomId)
         {
             var message = new Message
             {
@@ -195,8 +200,11 @@ namespace CozyChat.Service
                 ctx.Messages.Add(message);
 
                 await ctx.SaveChangesAsync();
+
+                return await ctx.Messages.Include(i => i.Sender).OrderByDescending(o => o.SentDate)
+                    .FirstOrDefaultAsync(f => f.SenderId == senderId &&
+                    f.ReceiverId == userId && f.ChatRoomId == chatRoomId);
             }
-            return true;
         }
     }
 }

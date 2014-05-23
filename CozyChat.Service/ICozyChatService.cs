@@ -32,7 +32,7 @@ namespace CozyChat.Service
         Task<List<User>> GetUsersSubscribedToChatRoomAsync(int chatRoomId);
 
         [OperationContract]
-        Task<List<Message>> GetMessagesForChatRoomAsync(int chatRoomId);
+        Task<List<Message>> GetMessagesForChatRoomAsync(int userId, int chatRoomId);
 
         #endregion
 
@@ -53,6 +53,6 @@ namespace CozyChat.Service
         #endregion
 
         [OperationContract]
-        Task<bool> SendMessageAsync(int senderId, string content, int? userId, int? chatRoomId);
+        Task<Message> SendMessageAsync(int senderId, string content, int? userId, int? chatRoomId);
     }
 }

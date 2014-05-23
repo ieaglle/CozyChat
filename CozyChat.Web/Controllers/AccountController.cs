@@ -3,7 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using CozyChat.Web.CozyChatServiceProxy;
+using CozyChat.Model;
+using CozyChat.Web.Repositories;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using CozyChat.Web.Models;
@@ -13,7 +14,7 @@ namespace CozyChat.Web.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private CozyChatServiceClient _proxy;
+        private readonly ICozyChatRepository _repo;
 
         private IAuthenticationManager AuthenticationManager
         {
@@ -23,14 +24,9 @@ namespace CozyChat.Web.Controllers
             }
         }
 
-        public AccountController()
-            : this(new CozyChatServiceClient())
+        public AccountController(ICozyChatRepository repo)
         {
-        }
-
-        public AccountController(CozyChatServiceClient serviceClient)
-        {
-            _proxy = serviceClient;
+            _repo = repo;
         }
 
         //
@@ -51,7 +47,7 @@ namespace CozyChat.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _proxy.CheckLoginAsync(model.UserName, model.Password);
+                var user = await _repo.CheckLoginAsync(model.UserName, model.Password);
                 if (user != null)
                 {
                     SignIn(user, model.RememberMe);
@@ -81,12 +77,12 @@ namespace CozyChat.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _proxy.RegisterUserAsync(model.UserName, model.Password);
+                var result = await _repo.RegisterUserAsync(model.UserName, model.Password);
                 if (result != null)
                 {
                     SignIn(result, false);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Rooms", "Home");
                 }
             }
 
@@ -101,7 +97,7 @@ namespace CozyChat.Web.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Rooms", "Home");
         }
 
         private void SignIn(User user, bool remember)
@@ -117,22 +113,13 @@ namespace CozyChat.Web.Controllers
             AuthenticationManager.SignIn(new AuthenticationProperties{IsPersistent = remember}, id);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && _proxy != null)
-            {
-                _proxy = null;
-            }
-            base.Dispose(disposing);
-        }
-
         #region Helpers
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
                 return Redirect(returnUrl);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Rooms", "Home");
         }
 
         #endregion

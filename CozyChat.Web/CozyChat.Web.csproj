@@ -80,6 +80,9 @@
     <Reference Include="Ninject.Web.Common">
       <HintPath>..\packages\Ninject.Web.Common.3.2.0.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Web.Mvc">
+      <HintPath>..\packages\Ninject.MVC5.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -105,6 +108,7 @@
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Xml" />
     <Reference Include="WebActivatorEx">
       <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
     </Reference>
@@ -122,20 +126,19 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Extensions\CustomControllerFactory.cs" />
     <Compile Include="Extensions\JsonNetResult.cs" />
-    <Compile Include="Extensions\NinjectDependencyResolver.cs" />
+    <Compile Include="Extensions\ServiceProxyBase.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ChatRoomModel.cs" />
+    <Compile Include="Models\MessageModel.cs" />
+    <Compile Include="Extensions\MvcHubActivator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service References\CozyChatServiceProxy\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
+    <Compile Include="Extensions\CozyChatProxy.cs" />
+    <Compile Include="Repositories\CozyChatRepository.cs" />
+    <Compile Include="Repositories\ICozyChatRepository.cs" />
     <Compile Include="SignalR\CozyChatHub.cs" />
     <Compile Include="SignalR\CozyChatPersistentConnection.cs" />
     <Compile Include="Startup.cs" />
@@ -180,21 +183,6 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <None Include="Service References\CozyChatServiceProxy\configuration91.svcinfo" />
-    <None Include="Service References\CozyChatServiceProxy\configuration.svcinfo" />
-    <Content Include="Service References\CozyChatServiceProxy\CozyChat.Web.CozyChatServiceProxy.ChatRoom.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\CozyChatServiceProxy\CozyChat.Web.CozyChatServiceProxy.Message.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <Content Include="Service References\CozyChatServiceProxy\CozyChat.Web.CozyChatServiceProxy.User.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Content>
-    <None Include="Service References\CozyChatServiceProxy\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -206,32 +194,10 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
-    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Manage.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <None Include="Service References\CozyChatServiceProxy\CozyChat.Model.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CozyChatServiceProxy\service.wsdl" />
-    <None Include="Service References\CozyChatServiceProxy\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CozyChatServiceProxy\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="Views\Home\PrivateMessages.cshtml" />
     <Content Include="Views\Home\ManageChatRooms.cshtml" />
-    <Content Include="Views\Home\Room.cshtml" />
     <Content Include="Views\Home\Rooms.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -241,10 +207,14 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\CozyChatServiceProxy\" />
+    <ProjectReference Include="..\CozyChat.Model\CozyChat.Model.csproj">
+      <Project>{826C005C-1C48-42EF-BCF2-F6D02508D0D3}</Project>
+      <Name>CozyChat.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CozyChat.Service\CozyChat.Service.csproj">
+      <Project>{60FAE2FC-63C3-42A9-8569-E7D010414A26}</Project>
+      <Name>CozyChat.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

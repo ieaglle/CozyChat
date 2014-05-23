@@ -1,129 +1,82 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
-using CozyChat.Web.CozyChatServiceProxy;
 using CozyChat.Web.Extensions;
-using CozyChat.Web.Models;
-using CozyChat.Web.SignalR;
+using CozyChat.Web.Repositories;
 using Microsoft.AspNet.Identity;
 
 namespace CozyChat.Web.Controllers
 {
     public class HomeController : AsyncController
     {
-        readonly CozyChatServiceClient _proxy = new CozyChatServiceClient();
+        private readonly ICozyChatRepository _repo;
 
-        private readonly Func<ChatRoom, ChatRoomModel> _converter = r => new ChatRoomModel
+        public HomeController(ICozyChatRepository repo)
         {
-            Id = r.Id,
-            CreatorId = r.CreatorId,
-            Creator = r.Creator != null ? r.Creator.Name : null,
-            Name = r.Name,
-            CreatedDate = r.CreatedDate,
-            Users = r.Users.Select(s => s.Id),
-        }; 
-
-        public ActionResult Index()
-        {
-            return View();
+            _repo = repo;
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
-        [System.Web.Mvc.Authorize]
-        public ActionResult PrivateMessages()
-        {
-            return View();
-        }
-
-        [System.Web.Mvc.Authorize]
+        [Authorize]
         public ActionResult ManageChatRooms()
         {
+            //NOTE: SignalR can be used even in controller
             //var a = GlobalHost.ConnectionManager.GetHubContext<CozyChatHub>();
             //a.Clients.All.Notify("trololo");
             return View();
         }
 
-        [System.Web.Mvc.Authorize]
-        public ActionResult Room(int id)
-        {
-            var a = id;
-            return View();
-        }
-
-        [System.Web.Mvc.Authorize]
+        [Authorize]
         public ActionResult Rooms()
         {
             return View();
         }
 
-        [System.Web.Mvc.Authorize, HttpGet]
+        [Authorize, HttpGet]
         public async Task<JsonNetResult> GetAllChatRooms()
         {
-            var res = await _proxy.GetChatRoomsAsync();
-            return new JsonNetResult { Data = res.Select(_converter) };
+            var res = await _repo.GetChatRoomsAsync();
+            return new JsonNetResult { Data = res };
         }
 
-        [System.Web.Mvc.Authorize, HttpGet]
+        [Authorize, HttpGet]
         public async Task<JsonNetResult> GetSubscribedRooms()
         {
-            var res = await _proxy.GetSubscribedChatRoomsAsync(int.Parse(User.Identity.GetUserId()));
-            return new JsonNetResult {Data = res.Select(_converter)};
-        }
-
-        [System.Web.Mvc.Authorize, HttpGet]
-        public async Task<JsonNetResult> GetUsersSubscribedToRoom(int roomId)
-        {
-            var res = await _proxy.GetUsersSubscribedToChatRoomAsync(roomId);
+            var res = await _repo.GetSubscribedChatRoomsAsync(int.Parse(User.Identity.GetUserId()));
             return new JsonNetResult {Data = res};
         }
 
-        [System.Web.Mvc.Authorize, HttpGet]
-        public async Task<JsonNetResult> GetMessagesForRoom(int roomId)
+        [Authorize, HttpGet]
+        public async Task<JsonNetResult> GetMessagesForRoom(int userId, int roomId)
         {
-            var res = await _proxy.GetMessagesForChatRoomAsync(roomId);
-            return new JsonNetResult {Data = res};
+            var res = await _repo.GetMessagesForChatRoomAsync(userId, roomId);
+            return new JsonNetResult { Data = res };
         }
-            
-        [System.Web.Mvc.Authorize,HttpPost]
+
+        [Authorize, HttpPost]
         public async Task<JsonNetResult> CreateChatRoom(string roomName)
         {
-            
-            var room = await _proxy.CreateChatRoomAsync(int.Parse(User.Identity.GetUserId()), roomName);
-            return new JsonNetResult {Data = _converter(room)};
+
+            var room = await _repo.CreateChatRoomAsync(int.Parse(User.Identity.GetUserId()), roomName);
+            return new JsonNetResult { Data = room };
         }
 
-        [System.Web.Mvc.Authorize, HttpDelete]
+        [Authorize, HttpDelete]
         public async Task<bool> DeleteChatRoom(int roomId)
         {
-            var succ = await _proxy.DeleteChatRoomAsync(int.Parse(User.Identity.GetUserId()), roomId);
+            var succ = await _repo.DeleteChatRoomAsync(int.Parse(User.Identity.GetUserId()), roomId);
             return succ;
         }
 
-        [System.Web.Mvc.Authorize, HttpPost]
+        [Authorize, HttpPost]
         public async Task<bool> Subscribe(int roomId)
         {
-            var succ = await _proxy.SubscribeUserForRoomAsync(int.Parse(User.Identity.GetUserId()), roomId);
+            var succ = await _repo.SubscribeUserForRoomAsync(int.Parse(User.Identity.GetUserId()), roomId);
             return succ;
         }
 
-        [System.Web.Mvc.Authorize, HttpPost]
+        [Authorize, HttpPost]
         public async Task<bool> UnSubscribe(int roomId)
         {
-            var succ = await _proxy.UnSubscribeUserForRoomAsync(int.Parse(User.Identity.GetUserId()), roomId);
+            var succ = await _repo.UnSubscribeUserFromRoomAsync(int.Parse(User.Identity.GetUserId()), roomId);
             return succ;
         }
     }

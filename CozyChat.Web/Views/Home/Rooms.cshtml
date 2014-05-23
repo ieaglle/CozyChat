@@ -1,9 +1,9 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@{
     ViewBag.Title = "Rooms";
 }
 
 <h2>Rooms</h2>
-
 
 <div class="row">
     
@@ -14,9 +14,16 @@
     </div>
     <div class="col-md-7" data-bind="visible: selectedRoom() != null">
         <div id="msgs" style="height: 400px; overflow-y: auto;">
-            <ul data-bind="foreach: currentRoomMessages">
-                <li data-bind="text: content"></li>
-            </ul>
+            
+            <table class="table table-condensed">
+                <tbody data-bind="foreach: currentRoomMessages">
+                    <tr>
+                        <td><span data-bind="text: moment(Sent).format('D/MM/YYYY HH:mm')"></span></td>
+                        <td><span data-bind="text: Sender"></span></td>
+                        <td><span data-bind="text: Content"></span></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <form class="form-inline">
             <input type="text" class="form-control" 
@@ -38,9 +45,6 @@
 <script type="text/javascript">
 
     $(document).ready(function() {
-
-        var elem = $('#msgs');
-        elem.scrollTop(10000000000000);
 
         function RoomsViewModel() {
             var self = this;
@@ -70,16 +74,29 @@
 
              self.selectRoom = function(room) {
 
-                 if (!self.selectedRoom()) {
-                     self.selectedRoom(room);
-                     proxy.server.join(self.selectedRoom());
-                 }
+                 $.ajax({
+                     type: 'GET',
+                     url: '@Url.Action("GetMessagesForRoom")',
+                     data: {userId: '@User.Identity.GetUserId()', roomId: room.Id},
+                     success: function (content) {
+                         self.currentRoomMessages(content);
 
-                 if (self.selectedRoom() && self.selectedRoom().Id != room.Id) {
-                     proxy.server.leave(self.selectedRoom());
-                     self.selectedRoom(room);
-                     proxy.server.join(self.selectedRoom());
-                 };
+                         if (!self.selectedRoom()) {
+                             self.selectedRoom(room);
+                             proxy.server.join(self.selectedRoom());
+                         }
+
+                         if (self.selectedRoom() && self.selectedRoom().Id != room.Id) {
+                             proxy.server.leave(self.selectedRoom());
+                             self.selectedRoom(room);
+                             proxy.server.join(self.selectedRoom());
+                         };
+
+                         var elem = $('#msgs');
+                         //elem.stop().animate({ scrollTop: elem[0].scrollHeight });
+                         elem[0].scrollTop = elem[0].scrollHeight;
+                     }
+                 });
              };
 
              self.addNewMessage = function () {
@@ -93,7 +110,6 @@
          vm.activate();
 
          var proxy = $.connection.cozyChatHub;
-         $.connection.hub.logging = true;
          $.connection.hub.start();
          proxy.client.userJoined = function (users) {
              vm.currentRoomUsers(users);
@@ -101,14 +117,15 @@
          proxy.client.userLeft = function (users) {
              vm.currentRoomUsers(users);
          };
-        proxy.client.notify = function(val) {
-            alert(val);
-        };
         $(window).on('beforeunload', function () {
             proxy.server.leave(vm.selectedRoom());
         });
         proxy.client.messageSent = function (message) {
+            var elem = $('#msgs');
+            var isDown = elem[0].scrollTop == (elem[0].scrollHeight-elem[0].offsetHeight);
             vm.currentRoomMessages.push(message);
+            if (isDown)
+                elem.stop().animate({ scrollTop: elem[0].scrollHeight });
         };
 
     });
