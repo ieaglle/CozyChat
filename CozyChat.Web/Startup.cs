@@ -1,5 +1,4 @@
-﻿using CozyChat.Web.SignalR;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(CozyChat.Web.Startup))]
@@ -10,8 +9,8 @@ namespace CozyChat.Web
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+
             app.MapSignalR();
-            app.MapSignalR<CozyChatPersistentConnection>("/chat");
         }
     }
 }

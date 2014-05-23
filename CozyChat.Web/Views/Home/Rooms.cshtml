@@ -8,13 +8,27 @@
 <div class="row">
     
     <div class="col-md-3">
-        
         <div class="list-group" data-bind="foreach: chatRooms">
             <a href="#" data-bind="text: Name, css: $root.roomClassName(Id), click: $root.selectRoom"></a>
         </div>
     </div>
-    <div class="col-md-8">Messages</div>
-    <div class="col-md-2">
+    <div class="col-md-7" data-bind="visible: selectedRoom() != null">
+        <div id="msgs" style="height: 400px; overflow-y: auto;">
+            <ul data-bind="foreach: currentRoomMessages">
+                <li data-bind="text: content"></li>
+            </ul>
+        </div>
+        <form class="form-inline">
+            <input type="text" class="form-control" 
+                   placeholder="Enter your message" 
+                   data-bind="value: newMessage" />
+
+            <button class="btn btn-default" 
+                    data-bind="click: addNewMessage">Send</button>
+        </form>
+    </div>
+    <div class="col-md-2" data-bind="visible: selectedRoom() != null">
+        Online users:
         <ul data-bind="foreach: currentRoomUsers">
             <li><span data-bind="text: Name"></span></li>
         </ul>
@@ -25,6 +39,9 @@
 
     $(document).ready(function() {
 
+        var elem = $('#msgs');
+        elem.scrollTop(10000000000000);
+
         function RoomsViewModel() {
             var self = this;
 
@@ -32,6 +49,8 @@
             self.currentRoomUsers = ko.observableArray();
             self.currentRoomMessages = ko.observableArray();
             self.selectedRoom = ko.observable();
+
+            self.newMessage = ko.observable();
 
             self.roomClassName = function(id) {
                 if (self.selectedRoom() && self.selectedRoom().Id == id)
@@ -62,7 +81,12 @@
                      proxy.server.join(self.selectedRoom());
                  };
              };
-         }
+
+             self.addNewMessage = function () {
+                 proxy.server.sendToGroup(self.selectedRoom(), self.newMessage());
+                 self.newMessage(null);
+             };
+        }
 
          var vm = new RoomsViewModel();
          ko.applyBindings(vm);
@@ -80,9 +104,13 @@
         proxy.client.notify = function(val) {
             alert(val);
         };
-         $(window).on('beforeunload', function () {
-             proxy.server.leave(vm.selectedRoom());
-         });
-     });
+        $(window).on('beforeunload', function () {
+            proxy.server.leave(vm.selectedRoom());
+        });
+        proxy.client.messageSent = function (message) {
+            vm.currentRoomMessages.push(message);
+        };
+
+    });
  </script>
 

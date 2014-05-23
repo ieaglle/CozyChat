@@ -16,8 +16,6 @@ namespace CozyChat.Web.SignalR
     public class CozyChatHub : Hub
     {
         private static readonly ConcurrentDictionary<string, List<User>> OnlineUsers = new ConcurrentDictionary<string, List<User>>();
-        private static readonly ConcurrentDictionary<string, List<string>> UserClients = new ConcurrentDictionary<string, List<string>>();
-
         readonly CozyChatServiceClient _proxy;
 
         public CozyChatHub()
@@ -25,9 +23,10 @@ namespace CozyChat.Web.SignalR
             _proxy = new CozyChatServiceClient();
         }
 
-        public void SendToGroup(string group, string text)
+        public async Task SendToGroup(ChatRoomModel room, string text)
         {
-
+            //var res = await _proxy.SendMessageAsync(int.Parse(Context.User.Identity.GetUserId()), text, null, room.Id);
+            Clients.Group(room.Name).MessageSent(new{content = text});
         }
 
         public async Task Join(ChatRoomModel group)
@@ -46,13 +45,6 @@ namespace CozyChat.Web.SignalR
             if (!OnlineUsers[group.Name].Select(s => s.Name).Contains(userName))
                 OnlineUsers[group.Name].Add(user);
 
-            //single user may have multiple clients (2 browser windows)
-            //thus we need to manage user's clients
-
-            //if user enters room for the first time
-            if (!UserClients.ContainsKey(userName))
-                UserClients.TryAdd(userName, new List<string>());
-
             Clients.Group(group.Name).UserJoined(OnlineUsers[group.Name].OrderBy(o => o.Name));
         }
 
@@ -60,19 +52,16 @@ namespace CozyChat.Web.SignalR
         {
             if (room == null) return;
 
-            Groups.Remove(Context.ConnectionId, room.Name);
+            if (!OnlineUsers.ContainsKey(room.Name) || 
+                OnlineUsers[room.Name].All(u => u.Name != Context.User.Identity.Name)) 
+                return;
 
-            UserClients[Context.User.Identity.Name].Remove(Context.ConnectionId);
+            Groups.Remove(Context.ConnectionId, room.Name);
 
             OnlineUsers[room.Name].Remove(OnlineUsers[room.Name].First(f => f.Name == Context.User.Identity.Name));
 
             Clients.OthersInGroup(room.Name).UserLeft(OnlineUsers[room.Name].OrderBy(o => o.Name));
             _proxy.Close();
-        }
-
-        public void BrowserClosing(ChatRoomModel room)
-        {
-            Leave(room);
         }
     }
 }

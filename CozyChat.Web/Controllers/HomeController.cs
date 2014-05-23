@@ -7,7 +7,6 @@ using CozyChat.Web.Extensions;
 using CozyChat.Web.Models;
 using CozyChat.Web.SignalR;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.SignalR;
 
 namespace CozyChat.Web.Controllers
 {
@@ -53,8 +52,8 @@ namespace CozyChat.Web.Controllers
         [System.Web.Mvc.Authorize]
         public ActionResult ManageChatRooms()
         {
-            var a = GlobalHost.ConnectionManager.GetHubContext<CozyChatHub>();
-            a.Clients.All.Notify("trololo");
+            //var a = GlobalHost.ConnectionManager.GetHubContext<CozyChatHub>();
+            //a.Clients.All.Notify("trololo");
             return View();
         }
 
