@@ -25,7 +25,7 @@
                 </tbody>
             </table>
         </div>
-        <form class="form-inline">
+        <form class="form-group form-inline">
             <input type="text" class="form-control" 
                    placeholder="Enter your message" 
                    data-bind="value: newMessage" />
@@ -42,92 +42,32 @@
     </div>
 </div>
 
+@Scripts.Render("~/bundles/roomsViewModel")
+
 <script type="text/javascript">
+    $(function () {
+        var proxy = $.connection.cozyChatHub;
+        $.connection.hub.start();
 
-    $(document).ready(function() {
+        var vm = new RoomsViewModel('@Url.Content("~/")', '@User.Identity.GetUserId()', proxy);
 
-        function RoomsViewModel() {
-            var self = this;
-
-            self.chatRooms = ko.observableArray();
-            self.currentRoomUsers = ko.observableArray();
-            self.currentRoomMessages = ko.observableArray();
-            self.selectedRoom = ko.observable();
-
-            self.newMessage = ko.observable();
-
-            self.roomClassName = function(id) {
-                if (self.selectedRoom() && self.selectedRoom().Id == id)
-                    return 'list-group-item active';
-                return 'list-group-item';
-            };
-
-            self.activate = function() {
-                $.ajax({
-                    type: 'GET',
-                    url: '@Url.Action("GetSubscribedRooms")',
-                     success: function(content) {
-                         vm.chatRooms(content);
-                     }
-                 });
-             };
-
-             self.selectRoom = function(room) {
-
-                 $.ajax({
-                     type: 'GET',
-                     url: '@Url.Action("GetMessagesForRoom")',
-                     data: {userId: '@User.Identity.GetUserId()', roomId: room.Id},
-                     success: function (content) {
-                         self.currentRoomMessages(content);
-
-                         if (!self.selectedRoom()) {
-                             self.selectedRoom(room);
-                             proxy.server.join(self.selectedRoom());
-                         }
-
-                         if (self.selectedRoom() && self.selectedRoom().Id != room.Id) {
-                             proxy.server.leave(self.selectedRoom());
-                             self.selectedRoom(room);
-                             proxy.server.join(self.selectedRoom());
-                         };
-
-                         var elem = $('#msgs');
-                         //elem.stop().animate({ scrollTop: elem[0].scrollHeight });
-                         elem[0].scrollTop = elem[0].scrollHeight;
-                     }
-                 });
-             };
-
-             self.addNewMessage = function () {
-                 proxy.server.sendToGroup(self.selectedRoom(), self.newMessage());
-                 self.newMessage(null);
-             };
-        }
-
-         var vm = new RoomsViewModel();
-         ko.applyBindings(vm);
-         vm.activate();
-
-         var proxy = $.connection.cozyChatHub;
-         $.connection.hub.start();
-         proxy.client.userJoined = function (users) {
-             vm.currentRoomUsers(users);
-         };
-         proxy.client.userLeft = function (users) {
-             vm.currentRoomUsers(users);
-         };
-        $(window).on('beforeunload', function () {
+        proxy.client.userJoined = function(users) {
+            vm.currentRoomUsers(users);
+        };
+        proxy.client.userLeft = function(users) {
+            vm.currentRoomUsers(users);
+        };
+        $(window).on('beforeunload', function() {
             proxy.server.leave(vm.selectedRoom());
         });
-        proxy.client.messageSent = function (message) {
-            var elem = $('#msgs');
-            var isDown = elem[0].scrollTop == (elem[0].scrollHeight-elem[0].offsetHeight);
+        proxy.client.messageSent = function(message) {
+            var elem = $('#msgs'),
+                isDown = elem[0].scrollTop === (elem[0].scrollHeight - elem[0].offsetHeight);
             vm.currentRoomMessages.push(message);
             if (isDown)
                 elem.stop().animate({ scrollTop: elem[0].scrollHeight });
         };
-
+        ko.applyBindings(vm);
+        vm.activate();
     });
  </script>
-

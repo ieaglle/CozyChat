@@ -42,83 +42,12 @@
 
 <button type="button" class="btn btn-default" data-bind="click: addRoom">Create</button>
 
+@Scripts.Render("~/bundles/manageRoomsViewModel")
+
 <script type="text/javascript">
-
-    $(document).ready(function() {
-
-        function ManageRoomsViewModel() {
-            var self = this;
-
-            self.chatRooms = ko.observableArray();
-
-            self.activate = function () {
-                $.ajax({
-                    type: 'GET',
-                    url: '@Url.Action("GetAllChatRooms")',
-                    success: function(content) {
-                        vm.chatRooms(content);
-                        console.log(content);
-                    }
-                });
-            }
-
-            self.addRoom = function() {
-                var name = prompt('Room Name');
-                if (name) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '@Url.Action("CreateChatRoom")',
-                    data: {roomName : name},
-                    success: function (newRoom) {
-                        console.log(newRoom);
-                        self.chatRooms.push(newRoom);
-                    }
-                });
-                }
-            }
-
-            self.deleteRoom = function (room) {
-                $.ajax({
-                    type: 'DELETE',
-                    url: '@Url.Action("DeleteChatRoom")',
-                    data: { roomId: room.Id },
-                    success: function (succ) {
-                        console.log(succ);
-                        self.chatRooms.remove(room);
-                    }
-                });
-            }
-
-            self.subscribe = function(room) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("Subscribe")',
-                    data: { roomId: room.Id },
-                    success: function (succ) {
-                        console.log(succ);
-                        self.activate();
-                    }
-                });
-            };
-
-            self.unSubscribe = function (room) {
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("UnSubscribe")',
-                    data: { roomId: room.Id },
-                    success: function (succ) {
-                        console.log(succ);
-                        self.activate();
-                    }
-                });
-            };
-        }
-
-        var vm = new ManageRoomsViewModel();
+    $(function() {
+        var vm = new ManageRoomsViewModel('@Url.Content("~/")');
         ko.applyBindings(vm);
         vm.activate();
     });
-
-
-
 </script>
