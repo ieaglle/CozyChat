@@ -42,12 +42,16 @@
 
 <button type="button" class="btn btn-default" data-bind="click: addRoom">Create</button>
 
-@Scripts.Render("~/bundles/manageRoomsViewModel")
+@section scripts
+{
+    @Scripts.Render("~/bundles/manageRoomsViewModel")
 
-<script type="text/javascript">
-    $(function() {
-        var vm = new ManageRoomsViewModel('@Url.Content("~/")');
-        ko.applyBindings(vm);
-        vm.activate();
-    });
-</script>
+    <script type="text/javascript">
+        (function($, ko)
+        {
+            var vm = new ManageRoomsViewModel('@Url.Content("~/")');
+            ko.applyBindings(vm);
+            vm.activate();
+        })(window.jQuery, ko);
+    </script>
+}

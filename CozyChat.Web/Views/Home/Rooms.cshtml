@@ -42,32 +42,35 @@
     </div>
 </div>
 
-@Scripts.Render("~/bundles/roomsViewModel")
+@section scripts
+{
+    @Scripts.Render("~/bundles/roomsViewModel")
 
-<script type="text/javascript">
-    $(function () {
-        var proxy = $.connection.cozyChatHub;
-        $.connection.hub.start();
+    <script type="text/javascript">
+        (function($, ko) {
+            var proxy = $.connection.cozyChatHub;
+            $.connection.hub.start();
 
-        var vm = new RoomsViewModel('@Url.Content("~/")', '@User.Identity.GetUserId()', proxy);
+            var vm = new RoomsViewModel('@Url.Content("~/")', '@User.Identity.GetUserId()', proxy);
 
-        proxy.client.userJoined = function(users) {
-            vm.currentRoomUsers(users);
-        };
-        proxy.client.userLeft = function(users) {
-            vm.currentRoomUsers(users);
-        };
-        $(window).on('beforeunload', function() {
-            proxy.server.leave(vm.selectedRoom());
-        });
-        proxy.client.messageSent = function(message) {
-            var elem = $('#msgs'),
-                isDown = elem[0].scrollTop === (elem[0].scrollHeight - elem[0].offsetHeight);
-            vm.currentRoomMessages.push(message);
-            if (isDown)
-                elem.stop().animate({ scrollTop: elem[0].scrollHeight });
-        };
-        ko.applyBindings(vm);
-        vm.activate();
-    });
- </script>
+            proxy.client.userJoined = function(users) {
+                vm.currentRoomUsers(users);
+            };
+            proxy.client.userLeft = function(users) {
+                vm.currentRoomUsers(users);
+            };
+            $(window).on('beforeunload', function() {
+                proxy.server.leave(vm.selectedRoom());
+            });
+            proxy.client.messageSent = function(message) {
+                var elem = $('#msgs'),
+                    isDown = elem[0].scrollTop === (elem[0].scrollHeight - elem[0].offsetHeight);
+                vm.currentRoomMessages.push(message);
+                if (isDown)
+                    elem.stop().animate({ scrollTop: elem[0].scrollHeight });
+            };
+            ko.applyBindings(vm);
+            vm.activate();
+        })(window.jQuery, ko);
+    </script>
+}

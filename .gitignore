@@ -2,6 +2,8 @@
 ## Eclipse
 #################
 
+/CozyChat.Web/Properties/PublishProfiles/*
+
 /packages/*
 !/packages/repositories.config
 

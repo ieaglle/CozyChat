@@ -5,20 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - CozyChat</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/jquery")
 </head>
     <body>
         <img alt="loader" src="~/Images/ajax-loader.gif" id="loading-indicator" style="display:none" />
-        <script type="text/javascript">
-            $.ajaxSetup({
-                beforeSend: function() {
-                    $("#loading-indicator").show();
-                },
-                complete: function() {
-                    $("#loading-indicator").hide();
-                }
-            });
-        </script>
 
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
@@ -46,19 +35,28 @@
             </footer>
         </div>
     
-    
-
-        @RenderSection("scripts", required: false)
-
-        @Scripts.Render("~/bundles/jqueryval",
+        @Scripts.Render("~/bundles/jquery",
+            "~/bundles/jqueryval",
             "~/bundles/bootstrap",
             "~/bundles/modernizr",
             "~/bundles/moment",
             "~/bundles/signalR",
             "~/bundles/knockoutjs")
-    
+        
+        <script type="text/javascript">
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $("#loading-indicator").show();
+                },
+                complete: function () {
+                    $("#loading-indicator").hide();
+                }
+            });
+        </script>
+        
         <script src="~/signalr/hubs"></script>
 
+        @RenderSection("scripts", required: false)
         
     </body>
 </html>
