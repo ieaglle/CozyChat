@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using CozyChat.Service;
@@ -10,7 +11,7 @@ namespace CozyChat.ServiceHost
         static void Main(string[] args)
         {
             using (var host = new System.ServiceModel.ServiceHost(typeof(CozyChatService), 
-                new Uri("net.tcp://localhost:3939/CozyChat")))
+                new Uri(ConfigurationManager.AppSettings["uri"])))
             {
                 var binding = new NetTcpBinding();
                 host.AddServiceEndpoint(typeof (ICozyChatService), binding, "");
