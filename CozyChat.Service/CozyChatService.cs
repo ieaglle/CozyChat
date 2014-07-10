@@ -99,7 +99,9 @@ namespace CozyChat.Service
             List<ChatRoom> chatRooms;
             using (var ctx = new CozyChatContext())
             {
-                chatRooms = await ctx.ChatRooms.Where(w => w.Users.Any(u => u.Id == userId)).ToListAsync();
+                chatRooms = await ctx.ChatRooms
+                    .Where(w => w.IsCurrent && w.Users.Any(u => u.Id == userId))
+                    .ToListAsync();
             }
             return chatRooms;
         }
@@ -109,7 +111,9 @@ namespace CozyChat.Service
             List<User> users;
             using (var ctx = new CozyChatContext())
             {
-                users = await ctx.Users.Where(w => w.ChatRooms.Any(c => c.Id == chatRoomId)).ToListAsync();
+                users = await ctx.Users
+                    .Where(w => w.ChatRooms.Any(c => c.Id == chatRoomId))
+                    .ToListAsync();
             }
             return users;
         }

@@ -25,10 +25,10 @@ namespace CozyChat.Web
                         "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/manageRoomsViewModel").Include(
-                       "~/Scripts/ViewModels/manageRoomsViewModel.js"));
+                       "~/Scripts/ViewModels/ManageRoomsViewModel.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/roomsViewModel").Include(
-                       "~/Scripts/ViewModels/roomsViewModel.js"));
+                       "~/Scripts/ViewModels/RoomsViewModel.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
